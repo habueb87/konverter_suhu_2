@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:konverter_suhu_2/widgets/button.dart';
 import 'package:konverter_suhu_2/widgets/dropdown.dart';
 import 'package:konverter_suhu_2/widgets/history.dart';
@@ -35,11 +35,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  double _currentSliderValue = 20;
   final _controllerCelcius = TextEditingController();
-  //variabel berubah
   double _inputCelcius = 0;
   double _result = 0;
-  //tambahkan variabel lain yang dibutuhkan
   var jenisSuhu = ["Kelvin", "Reamur"];
   var selectedSuhu = "Kelvin";
   List<String> history = <String>[];
@@ -83,11 +82,22 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.all(8),
         child: Column(
           children: [
+            Slider(
+              value: _currentSliderValue,
+              max: 100,
+              divisions: 100,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                  _controllerCelcius.text = _currentSliderValue.toString();
+                });
+              },
+            ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: ("Masukkan Suhu Dalam Celcius"), //hint text
               ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.number,
               controller: _controllerCelcius,
             ),
